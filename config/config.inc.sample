@@ -100,8 +100,8 @@ $xtmConfig['ldap']['external_directories'][] =
             'host' => 'my-other-directory',
             'port' => 389,
             /* directory base, and credentials (can be empty) */
-            'base' => 'DC=ds',
-            'user' => 'CN=Mycompany_LDAP Svc,OU=Service Account,OU=DSY,OU=Dassault Systemes,DC=ds',
+            'base' => 'DC=bc',
+            'user' => 'CN=Mycompany_LDAP Svc,OU=Service Account,OU=BCY,OU=BigCompany,DC=bc',
             'pass' => 'secret',
             /* name of the phone(s) entry in ldap */
             'phone_name' => 'telephonenumber',
