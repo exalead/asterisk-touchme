@@ -163,7 +163,7 @@ $xtmConfig['ldap']['external_directories'][] =
 /* Authentication configuration. */
 $xtmConfig['auth'] = array(/* Magic random serial number for this site
                               (put here any random string) */
-                           'magic' => '2e404b3d',
+                           'magic' => '4bfe3079',
                            /* Methods */
                            'methods' => array()
                            );
