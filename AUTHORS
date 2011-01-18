@@ -1,0 +1,12 @@
+TouchMe, an ldap dialer add-on for Asterisk-based PBX systems.
+Copyright (C) 2008 Exalead SA.
+
+Code by Exalead SA., 2008.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY. However, you may submit bugs and/or
+suggestions to the following authors:
+
+Main code:
+- Xavier Roche (roche at exalead dot com)
+

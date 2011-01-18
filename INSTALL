@@ -1,0 +1,42 @@
+TouchMe, an ldap dialer add-on for Asterisk-based PBX systems.
+Copyright (C) 2008 Exalead SA.
+
+How to install
+--------------
+
+0. Perequisites
+---------------
+
+- an Asterisk-based PBX system
+- an LDAP directory, that can be crawled (in read mode) using either anonymous
+connection or a common username/password (no individual password), and
+containing user phone numbers (normalized, or internal) and their names
+- an LDAP directory for authenticating users, or a kerberos-aware Apache
+install dir (setting the 'REMOTE_USER' server variable for clients), or any
+available authentication method (ssh, ftp ..)
+- an Apache-like server, at least with php+sockets+ldap support (ssh, ftp
+support also advised)
+
+
+1. Copying files
+----------------
+
+- extract all files in an Apache WWW directory
+- set the proper permissions for the WWW user:
+chmod -R a+r .
+
+Note: config/ and skins/ are the only directories to be modified, if needed.
+You an symlink other files when using multiple installs.
+
+
+2. Configuration
+----------------
+
+- modify config/config.inc to fit your needs (mandatory)
+- you can also customize your skin, by modifying $xtmConfig['skin']
+
+
+3. Testing
+----------
+
+You should be prompted an username/password upon the first login.

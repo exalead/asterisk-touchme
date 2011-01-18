@@ -1,0 +1,623 @@
+<?php
+/******************************************************************************
+ *
+ *                            Configuration Sample
+ *
+ *****************************************************************************/
+
+/* Global config */
+$xtmConfig = array();
+
+/* Current skin */
+$xtmConfig['skin'] = 'default';
+
+/* LDAP directory configuration, containing user's phone numbers and related
+   information. */
+$xtmConfig['ldap'] =
+/* */ array(
+            /* directory address and port */
+            'host' => 'mydirectoryserver',
+            'port' => 389,
+            /* directory base, and credentials (can be empty) */
+            'base' => '',
+            'user' => '',
+            'pass' => '',
+            /* maximum search entries */
+            'search_max' => 20,
+            /* maxmim directory entries */
+            'directory_max' => 1000,
+            /* name of the phone(s) entry in ldap */
+            'phone_name' => 'telephonenumber',
+            /* name of the external phone(s), if any */
+            'phone_ext_name' => array('mobile'),
+            /* FAX, if any */
+            'fax_name' => 'facsimiletelephonenumber',
+            /* name of the user login id in ldap */
+            'user_name' => 'uid',
+            /* canonical name (firstname lastname) */
+            'cn_name' => 'cn',
+            /* dn */
+            'dn_name' => 'dn',
+            /* ou */
+            'ou_name' => 'ou',
+            /* givenname */
+            'gn_name' => 'givenname',
+            /* surname */
+            'sn_name' => 'sn',
+            /* employee type */
+            'role_name' => 'employeetype',
+            /* department */
+            'department_name' => 'departmentnumber',
+            /* description name */
+            'description_name' => 'description',
+            /* organization (company) */
+            'organization_name' => 'o',
+            /* street */
+            'street_name' => 'street',
+            /* postal code */
+            'postal_name' => 'postalcode',
+            /* city or location */
+            'city_name' => 'l',
+            /* country */
+            'country_name' => 'st',
+            /* image data name, if any */
+            'image_name' => 'jpegphoto',
+            /* image data name, if any */
+            'mail_name' => 'mail',
+            /* room number, if any */
+            'roomnumber_name' => 'roomnumber',
+            /* Room number locator */
+            'roomnumber_locator' => 'skins/mycompany/map/?room=%1',
+            /* edit bind dn */
+            'edit_bind' => 'cn=manager,dc=directory, dc=mycompany, dc=com',
+            /* edit password */
+            'edit_pass' => 'secret',
+            /* softphone list bind */
+            'softphonelist_bind' => 'ou=Support,ou=External,dc=Contacts,dc=directory,dc=mycompany,dc=com',
+            /* softphone list pass */
+            'softphonelist_pass' => 'secret',
+            /* valid ldap characters */
+            'valid_chars' => '^[0-9\* A-Za-z_\ \-]+$',
+            /* ou elements to skip, if any (or array()) */
+            'skip_ou' => array('Internal' => true),
+            /* additional category sorting */
+            'directory_sort' => array('^Mycompany France' => 1,
+                                      '^Mycompany' => 2),
+            /* directory is not authenticated */
+            'directory_public' => true,
+            /* LDAP database fields encoding */
+            'encoding' => 'iso-8859-1',
+            /* Minimum request size */
+            'min_query_size' => 2
+            );
+
+
+/* LDAP additional directories. */
+$xtmConfig['ldap']['external_directories'] = array();
+$xtmConfig['ldap']['external_directories'][] =
+/* */ array(
+            /* directory address and port */
+            'host' => 'my-other-directory',
+            'port' => 389,
+            /* directory base, and credentials (can be empty) */
+            'base' => 'DC=ds',
+            'user' => 'CN=Mycompany_LDAP Svc,OU=Service Account,OU=DSY,OU=Dassault Systemes,DC=ds',
+            'pass' => 'secret',
+            /* name of the phone(s) entry in ldap */
+            'phone_name' => 'telephonenumber',
+            /* name of the external phone(s), if any */
+            'phone_ext_name' => array('mobile'),
+            /* FAX, if any */
+            'fax_name' => 'facsimiletelephonenumber',
+            /* name of the user login id in ldap */
+            'user_name' => 'uid',
+            /* canonical name (firstname lastname) */
+            'cn_name' => 'cn',
+            /* dn */
+            'dn_name' => 'dn',
+            /* ou */
+            'ou_name' => 'ou',
+            /* givenname */
+            'gn_name' => 'givenname',
+            /* surname */
+            'sn_name' => 'cn',
+            /* employee type */
+            'role_name' => 'employeetype',
+            /* department */
+            'department_name' => 'departmentnumber',
+            /* description name */
+            'description_name' => 'description',
+            /* organization (company) */
+            'organization_name' => 'company',
+            /* street */
+            'street_name' => 'street',
+            /* postal code */
+            'postal_name' => 'postalcode',
+            /* city or location */
+            'city_name' => 'l',
+            /* country */
+            'country_name' => 'co',
+            /* image data name, if any */
+            'image_name' => 'jpegphoto',
+            /* image data name, if any */
+            'mail_name' => 'mail',
+            /* room number, if any */
+            'roomnumber_name' => 'physicaldeliveryofficename',
+            /* Room number locator */
+            'roomnumber_locator' => 'skins/mycompany/map/?room=%1',
+            /* ou elements to skip, if any (or array()) */
+            'skip_ou' => array('Internal' => true),
+            /* directory is authenticated */
+            'directory_public' => false,
+            /* LDAP database fields encoding */
+            'encoding' => 'iso-8859-1',
+            /* Additional search ldap term ;
+               exclude deleted accounts, that is, the second bit of the
+               'UserAccountControl' field
+               see <http://support.microsoft.com/kb/269181> */
+            'query_transform_regexp' =>
+            array('^\((.*)\)$',
+                  '(&(\\1)(!(UserAccountControl:1.2.840.113556.1.4.803:=2)))'),
+            );
+
+/* Authentication configuration. */
+$xtmConfig['auth'] = array(/* Magic random serial number for this site
+                              (put here any random string) */
+                           'magic' => '2e404b3d',
+                           /* Methods */
+                           'methods' => array()
+                           );
+
+/* ACLs */
+
+/* Administrators */
+$full_edit = array(
+                   'givenname' => array('type' => 'text',
+                                        'title' => 'Given name'),	
+                   'sn' => array('type' => 'text',
+                                 'title' => 'Surname'),
+                   'mail' => array('type' => 'text',
+                                   'title' => 'Email'),
+                   'telephonenumber'
+                   => array('type' => 'text',
+                            'comment' =>
+                            'format: +33 6 12 34 56 78 ou +1 123 456 7890',
+                            'title' => 'Phone'),
+                   'mobile' => array('type' => 'text',
+                                     'title' => 'Mobile'),
+                   'fax' => array('type' => 'facsimiletelephonenumber',
+                                  'title' => 'Fax'),
+                   'departmentnumber' => array('type' => '@department',
+                                               'title' => 'Team'),
+                   'employeetype' => array('type' => '@employeetype',
+                                           'title' => 'Title'),
+                   'o' => array('type' => '@o',
+                                'title' => 'Company'),
+                   'street' => array('type' => '@street',
+                                     'title' => 'Address'),
+                   'l' => array('type' => '@l',
+                                'title' => 'City'),
+                   'postalcode' => array('type' => '@postalcode',
+                                         'title' => 'Postal code'),
+                   'st' => array('type' => '@st',
+                                 'title' => 'Country'),
+                   'uid' => array('type' => 'text',
+                                  'title' => 'User ID'),
+                   'jpegphoto' => array('type' => 'image',
+                                        'title' => 'Picture'),
+                   'cn' => array('type' => 'hidden',
+                                 'title' => 'LDAP Id'),  /* always hidden */
+                   'dn' => array('type' => 'hidden',
+                                 'title' => 'LDAP DN'),
+                   'description' => array('type' => 'textarea',
+                                          'comment' => 'Directory',
+                                          'title' => 'Description'),
+                   'roomnumber' => array('type' => '@roomnumber',
+                                         'title' => 'Room location'),
+                   '@height' => array('type' => 'text'),
+                   '@rotate' => array('type' => '@rotate')
+                   );
+
+/* Modify and add */
+$full_edit_and_create = $full_edit;
+$full_edit_and_create['@duplicate'] = 'text';
+
+/* Users */
+$user_edit = array(
+                   'givenname' => 'hidden',	
+                   'sn' => 'hidden',
+                   'mail' => 'hidden',
+                   'telephonenumber' => 'hidden',
+                   'mobile' => array('type' => 'text'),
+                   'departmentnumber' => array('type' => '@department',
+                                               'title' => 'Team'),
+                   /*'departmentNumber' => 'hidden',*/
+                   'employeetype' => 'hidden',
+                   'o' => 'hidden',
+                   'street' => 'hidden',
+                   'l' => 'hidden',
+                   'postalcode' => 'hidden',
+                   'st' => 'hidden',
+                   'uid' => 'hidden',
+                   'jpegphoto' => array('type' => 'image'),
+                   'cn' => 'hidden',  /* always hidden */
+                   'dn' => 'hidden',
+                   'description' => array('type' => 'textarea',
+                                          'comment' => 'Directory'),
+                   'roomnumber' => array('type' => '@roomnumber'),
+                   '@height' => 'hidden',
+                   '@rotate' => 'hidden'
+                   );
+
+/* */
+$xtmConfig['ldap']['custom_edit'] = array();
+
+$xtmConfig['ldap']['custom_edit']['employeetype'] =
+array('R&D Engineer',
+      'Support Engineer',
+      'Web Development Engineer',
+      'Sales Engineer',
+      'Pre-Sales Engineer',
+      'Software Quality Engineer',
+      'Chief Executive Officer',
+      'Chief Operating Officer',
+      'Chief Financial Officer',
+      'Chief Information Officer',
+      'Chief Marketing Officer',
+      'Chief Administrative Officer',
+      'Chief Strategic Officer',
+      'Chief Technical Officer',
+      'Product Manager',
+      'Assistant Product Manager',
+      'Office Manager and Financial Director',
+      'Administrative Assistant',
+      'Receptionist',
+      'Sales Manager, France',
+      'B2B VP Sales France',
+      'Business Development Director',
+      'Sales & Marketing Assistant',
+      'Affiliate Marketing Manager',
+      'Marketing Manager',
+      'Graphic Designer',
+      'Corporate Marketing Manager',
+      'Consulting Manager',
+      'Consulting Support',
+      'Vice President, Engineering',
+      'Web Product Manager',
+      'Computer Operations Supervisor',
+      'Systems and Network Technician',
+      'Systems Administrator',
+      'Web Engineering Manager',
+      'Director Development Web',
+      'Strategic Projects',
+      'Accounting Officer',
+      'Technical and Marketing Writer',
+      'Large Account Sales Engineer'
+      );
+
+/* */
+$xtmConfig['ldap']['custom_edit']['department'] =
+array(
+      'Management',
+      'Product Management',
+      'Administration and Finance',
+      'Sales',
+      'Marketing',
+      'Support',
+      'Q&A',
+      'R&D',
+      'Research',
+      'System Team'
+     );
+
+/* */
+$xtmConfig['ldap']['custom_edit']['o'] =
+  array('list' => array(
+              'Mycompany',
+              'Mycompany Inc',
+              'Mycompany UK'
+                        ),
+        'list_sync_with' => array('street', 'l', 'postalcode', 'st')
+        );
+$xtmConfig['ldap']['custom_edit']['street'] =
+array(
+      array('10 Foo Place', '* [Mycompany]'),
+      array('Suite 42, Main Street', '* [Mycompany Inc]'),
+      array('Turing Place, London', '* [Mycompany UK]')
+      );
+$xtmConfig['ldap']['custom_edit']['l'] =
+array(
+      array('Paris', '* [Mycompany]'),
+      array('San Francisco', '* [Mycompany Inc]'),
+      array('Glasgow', '* [Mycompany UK]')
+      );
+$xtmConfig['ldap']['custom_edit']['postalcode'] =
+array(
+      array('75008', '* [Mycompany]'),
+      array('CA 94142', '* [Mycompany Inc]'),
+      array('G72 0BN', '* [Mycompany UK]')
+      );
+$xtmConfig['ldap']['custom_edit']['st'] =
+array(
+      array('France', '* [Mycompany]'),
+      array('USA', '* [Mycompany Inc]'),
+      array('United Kingdom', '* [Mycompany UK]')
+      );
+
+/* */
+$xtmConfig['ldap']['custom_edit']['rotate'] =
+array(
+      array(0, '0'),
+      array(90, '+90Â° (counter clockwise)'),
+      array(180, '+180Â° (counter clockwise)'),
+      array(270, '+270Â° (counter clockwise)')
+);
+
+/* */
+$xtmConfig['ldap']['custom_edit']['roomnumber'] =
+array(
+      array(200, '* (entrance)'),
+      array(210, '* (room 1)'),
+      array(220, '* (room 2)'),
+      array(230, '* (room 3)')
+    );
+
+/* Various translations */
+_ADDLANG(array(
+               'R&D Engineer' => array('fr' => 'Ingénieur R&D'),
+               'Support Engineer' => array('fr' =>
+                                           'Ingénieur Support'),
+               'Web Development Engineer' =>
+               array('fr' => 'Ingénieur Développement Web'),
+               'Sales Engineer' => array('fr' => 'Ingénieur Ventes'),
+               'Pre-Sales Engineer' => array('fr' => 'Ingénieur Avant-Ventes'),
+               'Software Quality Engineer' =>
+               array('fr' => 'Ingénieur Tests / Qualité'),
+               /* */
+               'Chief Executive Officer' =>
+               array('fr' => 'Président Directeur Général'),
+               'Chief Operating Officer' =>
+               array('fr' => 'Directeur Général'),
+               'Chief Financial Officer' =>
+               array('fr' => 'Directeur Financier'),
+               'Chief Information Officer' =>
+               array('fr' => 'Directeur Technique'),
+               'Chief Marketing Officer' =>
+               array('fr' => 'Directeur Marketing'),
+               'Chief Administrative Officer' =>
+               array('fr' => 'Directeur Administratif'),
+               'Chief Strategic Officer' =>
+               array('fr' => 'Directeur de la Stratégie'),
+               'Chief Technical Officer' =>
+               array('fr' => 'Directeur Technique'),
+               'Product Manager' => array('fr' => 'Chef de Produit'),
+               'Assistant Product Manager' =>
+               array('fr' => 'Assistant Chef de Produit'),
+               'Office Manager and Financial Director' =>
+               array('fr' => 'Directeur Administratif et Financier'),
+               'Administrative Assistant' =>
+               array('fr' => 'Assistant Administratif'),
+               'Receptionist' => array('fr' => 'Hôtesse d\'Accueil'),
+               'Sales Manager, France' =>
+               array('fr' => 'Responsable Commercial France'),
+               'B2B VP Sales France' =>
+               array('fr' => 'Directrice Commerciale B2B France'),
+               'Business Development Director' =>
+               array('fr' => 'Directeur du Développement Commercial'),
+               'Sales & Marketing Assistant' =>
+               array('fr' => 'Assistant Marketing & Vente'),
+               'Affiliate Marketing Manager' =>
+               array('fr' => 'Responsable Affiliation'),
+               'Marketing Manager' => array('fr' => 'Responsable Marketing'),
+               'Graphic Designer' => array('fr' => 'Directeur Graphique'),
+               'Corporate Marketing Manager' =>
+               array('fr' => 'Responsable Marketing Entreprise'),
+               'Consulting Manager' => array('fr' => 'Responsable Consulting'),
+               'Consulting Support' => array('fr' => 'Consultant Support'),
+               'Vice President, Engineering' =>
+               array('fr' => 'Directeur de l\'Ingénierie'),
+               'Computer Operations Supervisor' =>
+               array('fr' => 'Responsable d\'Exploitation'),
+               'Systems and Network Technician' =>
+               array('fr' => 'Technicien Système et Réseaux'),
+               'Systems Administrator' =>
+               array('fr' => 'Ingénieur Système'),
+               'Web Engineering Manager' =>
+               array('fr' => 'Responsable Ingénierie Web'),
+               'Director Development Web' =>
+               array('fr' => 'Directeur Développements Web'),
+               'Strategic Projects' => array('fr' => 'Projets Stratégiques'),
+               'Accounting Officer' => array('fr' => 'Comptable'),
+               'Technical and Marketing Writer' =>
+               array('fr' => 'Rédacteur Technique & Marketing'),
+               'Large Account Sales Engineer' =>
+               array('fr' => 'Ingénieur Grands Comptes'),
+               /* */
+               'Management' => array('fr' => 'Direction'),
+               'Product Management' => array('fr' => 'Chef de produit'),
+               'Administration and Finance'
+               => array('fr' => 'Administration et finance'),
+               'Sales' => array('fr' => 'Commercial'),
+               'Marketing' => array('fr' => 'Marketing'),
+               'Support' => array('fr' => 'Support'),
+               'Q&A' => array('fr' => 'Test'),
+               'R&D' => array('fr' => 'R&D'),
+               'Research' => array('fr' => 'Recherche'),
+               'System Team' => array('fr' => 'Système'),
+               /* */
+               '+90Â° (counter clockwise)' =>
+               array('fr' => '+90Â° (sens horaire inverse)'),
+               '+180Â° (counter clockwise)' =>
+               array('fr' => '+180Â° (sens horaire inverse)'),
+               '+270Â° (counter clockwise)' =>
+               array('fr' => '+270Â° (sens horaire inverse)'),
+               /* */
+               'Given name' => array('fr' => 'Prénom'),
+               'Surname' => array('fr' => 'Nom'),
+               'Mobile' => array('fr' => 'Portable'),
+               'Team' => array('fr' => 'Equipe'),
+               'Title' => array('fr' => 'Titre'),
+               'Address' => array('fr' => 'Adresse'),
+               'Postal code' => array('fr' => 'Code postal'),
+               'Picture' => array('fr' => 'Photo'),
+               'Description' => array('fr' => 'Description'),
+               'LDAP Id' => array('fr' => 'ID LDAP'),
+               'User ID' => array('fr' => 'ID Utilisateur'),
+               'LDAP DN' => array('fr' => 'DN LDAP')
+               ));
+               
+/* Full edit access */
+$fullEdit = array('edit' => $full_edit);
+                           
+/* Full edit access */
+$fullEditCreate = array('edit' => $full_edit_and_create);
+                           
+/* Partial edit access */
+$userEdit = array('edit' => $user_edit);
+
+/* Secure SSL */
+$xtmConfig['auth']['enforce_ssl_login'] = true;
+
+/* ACL users table */
+$xtmConfig['auth']['acls']  = array('Adam Smith' => $fullEditCreate,
+                                    'Sue Hellen' => $fullEditCreate,
+                                    'Patrick Smith' => $fullEdit,
+                                    '@myself' => $userEdit
+                                   );
+
+/* LDAP authentication configuration (can be the same as ldap dierctory) */
+$xtmConfig['auth']['methods']['ldap'] =
+/* */ array('host' => 'office',
+            'port' => 389,
+            'domain' => 'OFFICE.MYCOMPANY.COM',
+            'user' => &$_REQUEST['login'],
+            'pass' => &$_REQUEST['password']
+            );
+
+/* IMAP authentication configuration */
+/* $xtmConfig['auth']['methods']['imap'] = */
+/* /\* *\/ array('host' => 'imap', */
+/*             'port' => 443, */
+/*             'mailbox' => 'INBOX' */
+/*             ); */
+
+/* */
+
+/* ssh authentication configuration */
+/* $xtmConfig['auth']['ssh'] = */
+/* /\* *\/ array('host' => 'server', */
+/*             'port' => 22, */
+/*             'user' => &$_REQUEST['login'], */
+/*             'pass' => &$_REQUEST['password']); */
+
+/* ftp authentication configuration */
+/* $xtmConfig['auth']['ftp'] = */
+/* /\* *\/ array('host' => 'ftp', */
+/*             'user' => &$_REQUEST['login'], */
+/*             'pass' => &$_REQUEST['password']); */
+
+/* Kerberos authentication configuration */
+$xtmConfig['auth']['methods']['kerberos'] =
+/* */ array('authkey' => &$_SERVER['REMOTE_USER']);
+
+/* Anonymous (no login) */
+$xtmConfig['auth']['methods']['anonymous'] =
+/* */ array('user' => &$_REQUEST['login'],
+            'pass' => &$_REQUEST['password']
+            );
+
+/*
+  Mycompany Current Dial Plan: 012345 + 4-digit suffix ; where suffix part is:
+  2600 => 2629
+  2670 => 2699
+  2700 => 2749
+  2750 => 2769
+  2771 => 2780
+  2060 => 2089
+  that is,
+  ^012345(26([012][0-9]|[789][0-9])|27([0123456][0-9]|7[1-9]|80)|20[6-8][0-9])$
+*/
+$exaPlan = '(26(([012][0-9])|([789][0-9]))|27(([0123456][0-9])|(7[1-9]|80))|20[6-8][0-9])';
+$exaPlanSF = '(38[0-9][0-9])';
+$exaExtDial = array('^012345' . $exaPlan . '$',
+                    /* San Francisco */
+                    '^00142424240' . $exaPlanSF . '$',
+                    /* Mycompany BV Amersfoort */
+                    '^0031234567892' . '$'
+                    );
+$exaIntDial = '^' . $exaPlan . '$';
+$exaIntDialSF = '^' . $exaPlanSF . '$';
+$exaIntAll = array(/* internal numbers */
+                   $exaIntDial,
+                   $exaIntDialSF,
+                   /* internal number without external ones */
+                   '^8[05][0-9][0-9]$',
+                   /* special numbers (*num) */
+                   '^\*[0-9]+$');
+
+/* images handling */
+$xtmConfig['ldap-image'] = array('width' => 64,
+                                 'height' => 64,
+                                 /* Temporary directory */
+                                 'tmpdir' => '/tmp',
+                                 'directory_height' => 150);
+
+/* images handling */
+/* $xtmConfig['file-image'] = array('width' => 64, */
+/*                                  'height' => 64, */
+/*                                  /\* Temporary directory *\/ */
+/*                                  'dir' => 'trombinoscope'); */
+
+$xtmConfig['callmanager'] =
+/* */ array(/* Call manager address and port */
+            'host' => 'xivo',
+            'port' => 5038,
+            /* Call manager user entry */
+            'user' => 'mycompanydialservice',
+            'pass' => 'secret',
+            /* Temporary directory for file locks */
+            'tmpdir' => '/tmp',
+            /* Dialing plan */
+            /* Valid dialing numbers */
+            'dialValidString' => '^[0-9\*]+$',
+            /* Internal numbers (including special ones) */
+            'internalRegexp' => $exaIntAll,
+            /* Internal numbers having an external representation */
+            'internalExternRegexp' => array(
+                                            $exaIntDial,
+                                            $exaIntDialSF),
+            /* External numbers that are within our range */
+            'externInternalRegexp' => $exaExtDial,
+            /* Transform the external representation of one of our number to
+               an internal one */
+            'externToInternalReplace' =>
+            array(
+                  array('^012345([0-9][0-9][0-9][0-9])$', "\\1"),
+                  array('^0014242424038([0-9][0-9])$', "38\\1"),
+                  array('^0031234567892$', "2081"),
+            ),
+            /* Transform an internal representation of one of our number to
+               an external one */
+            'internalToExternReplace' =>
+            array(
+                  array('^2([0-9][0-9][0-9])$', "0123452\\1"),
+                  array('^38([0-9][0-9])$', "0014242424038\\1"),
+                  array('^2081$', "0031234567892")
+                  ),
+            /* Our country code used in LDAP */
+            'country' => '+33',
+            /* Country code dial replacement */
+            'countryReplacement' => '0',
+            /* World code used in LDAP */
+            'world' => '+',
+            /* World code dial replacement */
+            'worldReplacement' => '00',
+            /* Prefix to dial to reach any external number */
+            'externalPrefix' => '0',
+            /* Default pickup timeout (5 seconds) */
+            'pickUpTimeout' => 5000,
+            /* local extension */
+            'extension' => 'default'
+            );
+
+?>
