@@ -72,6 +72,14 @@ class TouchMeConfig {
       $touch->close();
       unset($touch);
     }
+    if (isset($ldapEdit)) {
+      $ldapEdit->close();
+      unset($ldapEdit);
+    }
+    if (isset($otherLdap)) {
+      $otherLdap->close();
+      unset($otherLdap);
+    }
   }
   
   /**
