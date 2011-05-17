@@ -108,8 +108,8 @@ $touch = $xtmGlobal->getTouch();
 $what = $cn_name;
 $max_hits = 1 /*$xtmConfig['ldap']['search_max']*/;
 if ($q == 'all') {  /* 'get all vcard' hack */
-  $max_hits = 999;
-  $q = '';
+  $max_hits = 9999;
+  $q = '*';
 }
 $find = $xtmGlobal->findUserNumber($q, true, $what, $max_hits);
 /* Args */
@@ -250,13 +250,19 @@ if (is_array($find) && count($find) >= 1) {
     unlink($zipFile);
     fpassthru($fp);
   }
-  
 } else {
-  Header("HTTP/1.0 404 vCard entry not found");
-  echo "<html><head><title>vCard entry not found</title>'
-. '</head><body><h1>vCard entry not found</h1></body></html>";
+  if ($find === true) {
+    $msg = _T('too many results');
+  } else if ($xtmGlobal->getFindErrorMessage() !== false) {
+    $msg = _T($xtmGlobal->getFindErrorMessage());
+  } else {
+    $msg = _T('vCard entry not found');
+  }
+  Header("HTTP/1.0 404 " . $msg);
+  echo "<html><head><title>" . $msg . "</title>'
+. '</head><body><h1>" . $msg . "</h1></body></html>";
 }
-  
+
 /* End */
 include('include/exit.inc');
 ?>
